@@ -1,0 +1,24 @@
+.bg-wrap {
+  width: 200px;
+  height: 200px;
+  margin-block-start: 20px;
+  padding-inline-start: 30px;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.image-wrap {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+
+  img {
+    width: 100%;
+  }
+}
+
+.bg-css-wrap {
+  width: 200px;
+  height: 200px;
+  background: url("@img/usagi3-src-img.gif");
+}

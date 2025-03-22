@@ -1,0 +1,7 @@
+{
+  "data": [
+    { "name": "서브1", "link": "/sub1" },
+    { "name": "서브2", "link": "/sub2" },
+    { "name": "서브3", "link": "/sub3" }
+  ]
+}
