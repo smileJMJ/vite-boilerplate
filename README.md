@@ -12,11 +12,18 @@
 - **`@vitejs/plugin-legacy` 사용하지 않아도 되는 최신 브라우저 환경 대상 서비스** - legacy() 실행 시 transpilling+polyfill 하는 속도가 느려서 esbuild로만 transpilling 하는 것이 Vite의 빠른 빌드 속도를 느낄 수 있음
 </aside>
 
+<br/> 
+
 ![image.png](./readme-img/image.png)
+
+<br/> 
+<br/> 
 
 # [1] Vite란?
 
 빠르고 간결하게 개발할 수 있도록 설계된 빌드 도구
+
+<br/> 
 
 ### (1) 빠르다
 
@@ -33,16 +40,19 @@
   - `Rollup`을 사용하여 최적화된 프로덕션 빌드를 제공함
   - 코드 분할, 트리 쉐이킹(Tree Shaking) 등 최적화 기능이 자동 적용됨
 
+<br/> 
+
 ### (2) 간결하다
 
 - 간결한 기본 설정을 통해 쉽게 셋팅 가능
 - 프레임워크, 타입 지원 등 플러그인을 이용해 확장 가능
 
----
+<br/> 
+<br/> 
 
 # [2] Development
 
-### (1) 개발 서버 구동 속도 개선
+## (1) 개발 서버 구동 속도 개선
 
 ### 1. 의존성 파일은 사전 번들링 (Esbuild)!
 
@@ -92,6 +102,9 @@
 
 [https://ko.vite.dev/guide/dep-pre-bundling#monorepos-and-linked-dependencies](https://ko.vite.dev/guide/dep-pre-bundling#monorepos-and-linked-dependencies)
 
+<br/> 
+<br/> 
+
 ### 2. 소스 코드는 Native ESM!
 
 ![image.png](./readme-img/image3.png)
@@ -110,7 +123,10 @@
   </script>
   ```
 
-### (2) 소스 코드 갱신 속도 개선
+<br/>
+<br/> 
+
+## (2) 소스 코드 갱신 속도 개선
 
 ### 1. HMR(Hot Module Replacement)
 
@@ -118,10 +134,7 @@
 - 변경된 모듈만 교체하여 브라우저에서 변경된 모듈로 전달해 줌
 
 <aside>
-💡
-
-vite 테스트 프로젝트(`vanillaJS`) 에서 소스 코드 변경 시,
-(프로젝트 셋팅 시 HMR 관련 설정 커스터마이징하지 않았을 때)
+💡 vite 테스트 프로젝트(`vanillaJS`) 에서 소스 코드 변경 시 (프로젝트 셋팅 시 HMR 관련 설정 커스터마이징하지 않았을 때)
 
 - Counter.ts, main.ts(entry) 등 ts 파일 수정 시 `page reload` 발생 후 화면 갱신 됨
   - vanillaJS에서는 모듈 단위로 변경 사항을 감지할 수 없음.
@@ -147,10 +160,7 @@ if (import.meta.hot) {
 </aside>
 
 <aside>
-💡
-
-vite 테스트 프로젝트(`React`) 에서 소스 코드 변경 시,
-(프로젝트 셋팅 시 HMR 관련 설정 커스터마이징 하지 않았을 때)
+💡vite 테스트 프로젝트(`React`) 에서 소스 코드 변경 시 (프로젝트 셋팅 시 HMR 관련 설정 커스터마이징 하지 않았을 때)
 
 - main.ts 수정 시 `page reload` 발생 후 화면 갱신 됨
   - React, Vue 에선 컴포넌트 별로 코드를 관리&업데이트 가능하며, 아래의 vite 플러그인에서 자동으로 HMR 적용함
@@ -163,14 +173,15 @@ vite 테스트 프로젝트(`React`) 에서 소스 코드 변경 시,
 
 </aside>
 
+<br/> 
+<br/> 
+
 ### 2. HTTP 헤더 활용
 
 ❶ 필요한 경우 소스 코드 갱신 시, 클라이언트(브라우저) → 서버(개발서버)로 리소스 요청의 응답 헤더로 `304 Not Modified` 를 내려보낸다고 함
 
 <aside>
-💡
-
-vite 테스트 프로젝트(vanillaJS 로 셋팅)에서 소스 코드 변경 시,
+💡vite 테스트 프로젝트(vanillaJS 로 셋팅)에서 소스 코드 변경 시,
 
 - 코드 파일 요청 헤더에는 `304 Not Modified` 응답 코드 확인할 수 없었음
 - 코드 파일 요청 헤더에서 `Cache-Control: no-cache` 확인할 수 있었음
@@ -182,12 +193,13 @@ vite 테스트 프로젝트(vanillaJS 로 셋팅)에서 소스 코드 변경 시
 - https://developer.mozilla.org/ko/docs/Web/HTTP/Status/304
 - [304 Not Modified ](https://www.notion.so/304-Not-Modified-18814916e2a5803db6e7db31e37e73d1?pvs=21)
 
+<br/> 
+<br/> 
+
 ❷ 디펜던시는 `Cache-Control: max-age=31536000,immutable`을 이용해 캐시함
 
 <aside>
-💡
-
-vite 테스트 프로젝트(vanillaJS 로 셋팅)에서 소스 코드 변경 시,
+💡vite 테스트 프로젝트(vanillaJS 로 셋팅)에서 소스 코드 변경 시,
 
 - 의존성 파일인 `lodash-es.js` 파일 요청의 응답 헤더에서 `Cache-Control: max-age-31536000,immutable` 값 확인함
 
@@ -200,7 +212,9 @@ vite 테스트 프로젝트(vanillaJS 로 셋팅)에서 소스 코드 변경 시
   → 개발 시, 의존성 파일은 변경사항이 없을 것이므로 브라우저에서 장시간 캐시를 적용함
 - 사전 번들링 된 디펜던시는 HTTP 헤더에 `Cache-Control: max-age=31536000,immutable` 추가하여 브라우저 캐시가 적용되도록 함
 
----
+
+<br/> 
+<br/> 
 
 # [3] Production
 
@@ -227,16 +241,15 @@ Esbuild(성능) 대신 Rollup의 유연한 플러그인 API 와 인프라를 선
 
 [https://ko.vite.dev/guide/build](https://ko.vite.dev/guide/build)
 
-| 항목                                                               | 내용                                                                                                                                                                                                            |
-| ------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Scripts                                                            | `vite build`                                                                                                                                                                                                    |
-| Entry (default)                                                    | `{root}/index.html`                                                                                                                                                                                             |
-| Format (default)                                                   | 정적 호스팅을 위한 형태                                                                                                                                                                                         |
-| → single/multi entry로 설정해둔 index.html 도 전부 포함하여 빌드함 |
-| 브라우저 지원 현황                                                 | • Chrome >=87 • Firefox >=78 • Safari >=14 • Edge >=88 → Native ESM 지원 브라우저 → Native ESM 동적 import 지원 브라우저 → import.meta 지원 브라우저                                                            |
-| 레거시 브라우저 지원                                               | [\*\*`@vitejs/plugin-legacy`](https://github.com/vitejs/vite/tree/main/packages/plugin-legacy) 플러그인 사용\*\* → 자동으로 레거시 브라우저에 대한 청크를 생성하여 브라우저가 ESM 지원하지 않는 경우에만 불러옴 |
-| JS 지원 버전                                                       | `build.target`으로 설정 가능 → 최소 `es2015` 이상이어야 함                                                                                                                                                      |
-| 폴리필 지원                                                        | vite는 구문 변환만 할 뿐 폴리필은 미지원 함 → 폴리필이 필요한 경우 아래의 폴리필 이용 [https://cdnjs.cloudflare.com/polyfill/](https://cdnjs.cloudflare.com/polyfill/)                                          |
+| 항목 | 내용 |
+|------|-------|
+| Scripts | `vite build` |
+| Entry (default) | `{root}/index.html` |
+| Format (default) | 정적 호스팅을 위한 형태 <br/> → single/multi entry로 설정해둔 index.html 도 전부 포함하여 빌드함   |
+| 브라우저 지원 현황 | `Chrome >=87, Firefox >=78, Safari >=14, Edge >=88` <br/><br/> Native ESM 지원 브라우저 <br/> Native ESM 동적 import 지원 브라우저 <br/> import.meta 지원 브라우저 |
+| 레거시 브라우저 지원 | [\*\*`@vitejs/plugin-legacy`](https://github.com/vitejs/vite/tree/main/packages/plugin-legacy) 플러그인 사용\*\* <br/> → 자동으로 레거시 브라우저에 대한 청크를 생성하여 브라우저가 ESM 지원하지 않는 경우에만 불러옴 |
+| JS 지원 버전 | `build.target`으로 설정 가능 → 최소 `es2015` 이상이어야 함 |
+| 폴리필 지원 | vite는 구문 변환만 할 뿐 폴리필은 미지원 함 → 폴리필이 필요한 경우 아래의 폴리필 이용 [https://cdnjs.cloudflare.com/polyfill/](https://cdnjs.cloudflare.com/polyfill/) |
 
 <br/>
 <br/>
@@ -1392,30 +1405,18 @@ export default {
 
 https://github.com/vitejs/vite/tree/main/packages/plugin-legacy#options
 
-| name                                                                                                                                                | type    | default   | contents                                                                                                                                                                                                              |
-| --------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
-| `targets`                                                                                                                                           | `string | string[]  | { [key: string]: string }`                                                                                                                                                                                            | [`'last 2 versions and not dead, > 0.3%, Firefox ESR'`](https://browsersl.ist/#q=last+2+versions+and+not+dead%2C+%3E+0.3%25%2C+Firefox+ESR) | - 레거시 청크를 렌더링할 때 `@babel/preset-env`로 전달할 값 |
-| - 해당 값이 없을 때, `browserslist` 값을 보고 browserslist 값이 없을 경우 default 값인 'last 2 versions and not dead, > 0.3%, Firefox ESR’을 사용함 |
-| `modernTargets`                                                                                                                                     | `string | string[]` | [`'edge>=79, firefox>=67, chrome>=64, safari>=12, chromeAndroid>=64, iOS>=12'`](https://browsersl.ist/#q=edge%3E%3D79%2C+firefox%3E%3D67%2C+chrome%3E%3D64%2C+safari%3E%3D12%2C+chromeAndroid%3E%3D64%2C+iOS%3E%3D12) | - 모던 청크를 렌더링할 때 `@babel/preset-env`로 전달할 값                                                                                   |
+| name | type | default | contents |
+| ------ | ------- | --------- | ------ | 
+| `targets` | `string` or `string[]` or `{ [key: string]: string }`| [`'last 2 versions and not dead, > 0.3%, Firefox ESR'`](https://browsersl.ist/#q=last+2+versions+and+not+dead%2C+%3E+0.3%25%2C+Firefox+ESR) | - 레거시 청크를 렌더링할 때 `@babel/preset-env`로 전달할 값 <br/> - 해당 값이 없을 때, `browserslist` 값을 보고 browserslist 값이 없을 경우 default 값인 'last 2 versions and not dead, > 0.3%, Firefox ESR’을 사용함 |
+| `modernTargets` | `string` or `string[]` | [`'edge>=79, firefox>=67, chrome>=64, safari>=12, chromeAndroid>=64, iOS>=12'`](https://browsersl.ist/#q=edge%3E%3D79%2C+firefox%3E%3D67%2C+chrome%3E%3D64%2C+safari%3E%3D12%2C+chromeAndroid%3E%3D64%2C+iOS%3E%3D12) | - 모던 청크를 렌더링할 때 `@babel/preset-env`로 전달할 값 <br/> - 해당 값이 없을 때 `browserslist` 값을 보긴 하나, esbuild의 target에 통과할 수 있는 값을 보도록 조정해서 사용함 (최소 [`'edge>=79, firefox>=67, chrome>=64, safari>=12, chromeAndroid>=64, iOS>=12'`](https://browsersl.ist/#q=edge%3E%3D79%2C+firefox%3E%3D67%2C+chrome%3E%3D64%2C+safari%3E%3D12%2C+chromeAndroid%3E%3D64%2C+iOS%3E%3D12) ) <br/> - `browserslist-to-esbuild` 플러그인을 사용해서 modernTargets 조정 |
+| `polyfills` | `boolean` or `string[]` | `true` | - 대상 브라우저 범위와 `@babel/preset-env`의 `useBuiltIns: 'usage'`를 통해 감지한 최종 번들에서 필요한 폴리필을 기반으로 폴리필 청크를 생성함 <br/>  - 직접 처리하려면 false로 지정해서 폴리필 청크 생성하지 않도록 함 |
+| `modernPolyfills` | `boolean` or `string[]` | `false` | - 모던 빌드에 대한 폴리필 청크를 생성함 <br/> - `modernTargets` 를 지정하지 않은 경우 `true`로 지정하는 것은 추천하지 않음 <br/> → 필요한 폴리필을 자동으로 감지하는데, `core-js@3`가 지원하는 여러 기능들이 포함되어 많은 양의 폴리필을 삽입할 수 있음 (ex. NaviteESM 대상 브라우저라도 15KB 의 폴리필 포함할 수 있음) |
+| `additionalLegacyPolyfills`, `additionalModernPolyfills` | `string[]` | - | - `@babel/preset-env` 의 `useBuiltIns: 'usage'` 는 ECMA Script (ES) 문법 기준으로 폴리필을 감지함(Promise, async/await, …) <br/> - @babel/preset-env는 Dom API 폴리필(fetch, Intersection Observer 등)을 감지하지 못하여 IE11 같은 구형 브라우저 지원이 필요할 경우 사용자가 직접 추가해야 함 |
+| `renderLegacyChunks` | `boolean` | `true` | - 레거시 청크 추출 여부 <br/> - 모던 청크에서 구형 브라우저에서 필요한 폴리필을 modernPolyfills에 추가해주면 false를 사용해도 되지만 그 외 구형 브라우저 지원이 필요할 경우엔 true 로 지정 |
+| `renderModernChunks` | `boolean` | `true` | - 모던 청크 추출 여부 <br/> - ES Module을 지원하는 브라우저용 청크를 그대로 생성함 <br/> - 구형 브라우저부터 지원하는 코드만 필요할 경우 false로 지정 |
+| `externalSystemJS` | `boolean` | `false` | - 폴리필 청크에서 `systemjs/dist/s.min.js` (systemjs 런타임) 을 제외하고 싶을 때 사용 |
 
-- 해당 값이 없을 때 `browserslist` 값을 보긴 하나, esbuild의 target에 통과할 수 있는 값을 보도록 조정해서 사용함 (최소 [`'edge>=79, firefox>=67, chrome>=64, safari>=12, chromeAndroid>=64, iOS>=12'`](https://browsersl.ist/#q=edge%3E%3D79%2C+firefox%3E%3D67%2C+chrome%3E%3D64%2C+safari%3E%3D12%2C+chromeAndroid%3E%3D64%2C+iOS%3E%3D12) )
-- `browserslist-to-esbuild` 플러그인을 사용해서 modernTargets 조정 |
-  | `polyfills` | `boolean | string[]` | `true` | - 대상 브라우저 범위와 `@babel/preset-env`의 `useBuiltIns: 'usage'`를 통해 감지한 최종 번들에서 필요한 폴리필을 기반으로 폴리필 청크를 생성함
-- 직접 처리하려면 false로 지정해서 폴리필 청크 생성하지 않도록 함 |
-  | `modernPolyfills` | `boolean | string[]` | `false` | - 모던 빌드에 대한 폴리필 청크를 생성함
-- `modernTargets` 를 지정하지 않은 경우 `true`로 지정하는 것은 추천하지 않음
-  → 필요한 폴리필을 자동으로 감지하는데, `core-js@3`가 지원하는 여러 기능들이 포함되어 많은 양의 폴리필을 삽입할 수 있음 (ex. NaviteESM 대상 브라우저라도 15KB 의 폴리필 포함할 수 있음) |
-  | `additionalLegacyPolyfills`,
-
-`additionalModernPolyfills` | `string[]` | | - `@babel/preset-env` 의 `useBuiltIns: 'usage'` 는 ECMA Script (ES) 문법 기준으로 폴리필을 감지함(Promise, async/await, …)
-
-- @babel/preset-env는 Dom API 폴리필(fetch, Intersection Observer 등)을 감지하지 못하여 IE11 같은 구형 브라우저 지원이 필요할 경우 사용자가 직접 추가해야 함 |
-  | `renderLegacyChunks` | `boolean` | `true` | - 레거시 청크 추출 여부
-- 모던 청크에서 구형 브라우저에서 필요한 폴리필을 modernPolyfills에 추가해주면 false를 사용해도 되지만 그 외 구형 브라우저 지원이 필요할 경우엔 true 로 지정 |
-  | `renderModernChunks` | `boolean` | `true` | - 모던 청크 추출 여부
-- ES Module을 지원하는 브라우저용 청크를 그대로 생성함
-- 구형 브라우저부터 지원하는 코드만 필요할 경우 false로 지정 |
-  | `externalSystemJS` | `boolean` | `false` | - 폴리필 청크에서 `systemjs/dist/s.min.js` (systemjs 런타임) 을 제외하고 싶을 때 사용 |
+<br/> 
 
 ```jsx
 // vite.config.js
